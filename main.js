@@ -256,7 +256,7 @@ const groupRandom = (arr,x)=>{
                         group.push(data[numberRandom])
                         data.splice(numberRandom,1)
                     }
-                    if(isFemale.length ===1){
+                    if(isFemale.length ===1&&data.length>1){
                         while(data[numberRandom]?.gender!=='Nam'){
                             numberRandom = Math.floor(Math.random() * (data.length));
                         }
