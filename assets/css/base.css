@@ -1,0 +1,34 @@
+:root{
+    --e-global-color-b699576: #69ABB9;
+    --e-global-color-c7bde81: #227782;
+    --bg-color-job:rgb(244,244,244);
+    --bg-color-hover:rgb(226, 37, 116);
+}
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin:0;
+    scroll-behavior: smooth;
+
+}
+html{
+    font-size:62.5%;
+    line-height: 1.6rem;
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    
+}
+button,
+input{
+    outline: none;
+    border: none;
+    background-color: transparent;
+}
+a {
+    color: var(--black);
+    text-decoration: none;
+}
+ul{
+    list-style-type: none;
+}

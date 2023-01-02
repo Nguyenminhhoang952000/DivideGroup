@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/base.css">
+    <link rel="stylesheet" href="./assets/css/divide.css">
+    <link rel="stylesheet" href="./assets/fonts/fontawesome-free-5.15.4-web/css/all.min.css">
+    <title>Divide</title>
+</head>
+<body>
+    <div class="app">
+        <div class="wrapper">
+            <div id="header">
+                <div class="header__logo">
+                    <img src="./assets/img/group.png" alt="" class="header__logo-img">
+                </div>
+                <div class="header__information">
+                    <div class="header__notification">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="header__information-all">
+                        <img src="./assets/img/noimg.png" alt="" class="header__information--img">
+                        <div class="header__information--name">Nguyễn Văn A</div>
+                    </div>
+                </div>
+            </div>
+            <div id="container">
+                <div class="container__listaction">
+                    <div class="container__menu btn menu">
+                        <span class="container__action--icon">
+                            <i class="fas fa-list"></i>
+                        </span>
+                        <span class="container__menu-text">Menu</span>
+                        <span class="container__next">
+                            <i class="fas fa-chevron-right"></i>
+                        </span>
+                    </div>
+                    <ul class="container__listjob">
+                        <a href="./index.html">
+                            <li class="container__listjob--action btn">
+                                <span class="container__action--icon">
+                                    <i class="fas fa-radiation"></i>
+                                </span>
+                                <span class="container__menu-text">Action</span>
+                                <span class="container__next">
+                                    <i class="fas fa-chevron-right"></i>
+                                </span>
+                            </li>
+                        </a>
+                        
+                        <li class="container__listjob--group btn active">
+                            <span class="container__action--icon">
+                                <i class="fas fa-layer-group"></i>   
+                            </span>
+                            <span class="container__menu-text">Group</span>
+                            <span class="container__next">
+                                <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content">
+                    <div class="content__additem">
+                        <div class="content__fullname">
+                            <div class="content__fullname-text">
+                                <i class="fas fa-sort-numeric-up-alt"></i>
+                                <span>
+                                    Quantity
+                                </span>
+                            </div>
+                            <input type="text" placeholder="Nhập số lượng ..." class="content__fullname-input">
+                        </div>
+                        <button class="content__btn">OK</button>
+                    </div>
+                    <div class="total">Quantity:<span>10</span></div>
+
+                    <div class="content__list">
+                        <div class="content__container">
+                            <div class="content__list-items">
+                                <div class="content__list-title">Nhóm <span>1</span></div>
+                                <div class="content__list-item">
+                                    <div class="content__list-info">
+                                        <img src="./assets/img/noimg.png" alt="" class="content__list-img">
+                                    <div class="content__list-information">
+                                        <h3 class="content__list--name">
+                                            Nguyễn Văn A
+                                        </h3>
+                                        <p class="content__list--gender">
+                                            Nam
+                                        </p>
+                                    </div>
+                                    </div>
+                                    <div class="content__list-action">
+                                        <span class="content__list-btn">
+                                            <i class="fas fa-edit"></i>
+                                        </span>
+                                        <span class="content__list-btn">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="content__list-item">
+                                    <div class="content__list-info">
+                                        <img src="./assets/img/noimg.png" alt="" class="content__list-img">
+                                    <div class="content__list-information">
+                                        <h3 class="content__list--name">
+                                            Nguyễn Văn A
+                                        </h3>
+                                        <p class="content__list--gender">
+                                            Nữ
+                                        </p>
+                                    </div>
+                                    </div>
+                                    <div class="content__list-action">
+                                        <span class="content__list-btn">
+                                            <i class="fas fa-edit"></i>
+                                        </span>
+                                        <span class="content__list-btn">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="content__list-item">
+                                    <div class="content__list-info">
+                                        <img src="./assets/img/noimg.png" alt="" class="content__list-img">
+                                    <div class="content__list-information">
+                                        <h3 class="content__list--name">
+                                            Nguyễn Văn A
+                                        </h3>
+                                        <p class="content__list--gender">
+                                            Nam
+                                        </p>
+                                    </div>
+                                    </div>
+                                    <div class="content__list-action">
+                                        <span class="content__list-btn">
+                                            <i class="fas fa-edit"></i>
+                                        </span>
+                                        <span class="content__list-btn">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>  
+                            <!-- test -->
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="footer">
+
+            </div>
+        </div>
+    </div>    
+    <script type="module" src="./divide.js"></script>
+</body>
+</html>
