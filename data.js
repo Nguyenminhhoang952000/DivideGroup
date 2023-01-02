@@ -24,49 +24,61 @@ export const result = [
     {
         id:5,
 
-        name: "Dương Thị Quỳnh",
-        gender: "Nữ"
+        name: "Chung Le",
+        gender: "Nam"
     },
     {
         id:6,
 
-        name: "Đồng Xuân Hoàn",
+        name: "Bạch Đàn",
         gender: "Nam"
     },
     {
         id:7,
 
-        name: "Đỗ Minh Hiếu",
+        name: "Mạnh",
         gender: "Nam"
     },
     {
         id:8,
 
-        name: "Đỗ Thị Hoa",
-        gender: "Nữ"
+        name: "Tùng",
+        gender: "Nam"
     },
     {
         id:9,
 
-        name: "Trần Anh Kim",
-        gender: "Nữ"
+        name: "Việt",
+        gender: "Nam"
     },
     {
         id:10,
 
-        name: "Nguyễn Thái Dụ",
+        name: "Nguyễn Tuấn Anh",
         gender: "Nam"
     },
     {
         id:11,
 
-        name: "Trần Bảo Thái",
+        name: "Hoàng Hải",
         gender: "Nam"
     },
     {
         id:12,
 
-        name: "Nguyễn Tuấn Trường",
+        name: "Hưng",
+        gender: "Nam"
+    },
+    {
+        id:13,
+
+        name: "Trịnh Đức",
+        gender: "Nam"
+    },
+    {
+        id:14,
+
+        name: "Huy Hoàng",
         gender: "Nam"
     },
 ]

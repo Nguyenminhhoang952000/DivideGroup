@@ -7,16 +7,17 @@ const addItem = $('.content__btn.add')
 const saveItem = $('.content__btn.save')
 const listItem = $('.content__container')
 const editItem = $('.content__container')
-const content_note = $('.content__note');
-const content_notegender = $('.content__note-gender');
+const contentNote = $('.content__note');
+const noteGender = $('.content__note-gender');
 const total = $('.total span');
 const containerDivide = $('.content__container.divide')
-const total__quantity = $('.total__quantity')
-const content__group = $('.content__group')
-const input__group = $('.content__fullname-input--group')
-const totalquanti = $('.totalquanti span')
+const totalQuantity = $('.total__quantity')
+const contentGroup = $('.content__group')
+const inputGroup = $('.content__fullname-input--group')
+const totalQuanti = $('.totalquanti span')
+const listItems = $$('.content__list-items:last-child')
 let datas = result
-totalquanti.innerHTML = 0
+totalQuanti.innerHTML = 0
 const renderData = (datas) => {
     const render = datas.map((value)=>{
         return `<div class="content__list-item">
@@ -52,7 +53,7 @@ total.innerHTML = totalLength
 
 fullName.onblur=(e)=>{
     const valueInput = e.target.value.trim()
-    content_note.style.visibility = !valueInput?'visible': 'hidden'
+    contentNote.style.visibility = !valueInput?'visible': 'hidden'
     if(valueInput){
         const lenghtName = datas.filter(data=>{
             return data.name.toLowerCase().trim().includes(e.target.value.toLowerCase().trim())
@@ -69,11 +70,11 @@ fullName.onblur=(e)=>{
 }
 fullName.oninput=(e)=>{
     const valueInput = e.target.value.trim()
-    content_note.style.visibility = !valueInput?'visible': 'hidden'
+    contentNote.style.visibility = !valueInput?'visible': 'hidden'
 }
 Array.from(genders).forEach(gender=>{
     gender.onclick =()=>{
-        content_notegender.style.visibility = 'hidden'
+        noteGender.style.visibility = 'hidden'
     }
 })
 let maxId = 0
@@ -86,7 +87,7 @@ addItem.onclick = ()=>{
     else{
         maxId =0
     }
-    content_note.style.visibility = !fullName.value?'visible': 'hidden'
+    contentNote.style.visibility = !fullName.value?'visible': 'hidden'
     let count = 0;
     let valuegender=''
     Array.from(genders).forEach(gender=>{
@@ -95,7 +96,7 @@ addItem.onclick = ()=>{
             valuegender = gender.value
         }   
     })
-    content_notegender.style.visibility = count===0?'visible': 'hidden'
+    noteGender.style.visibility = count===0?'visible': 'hidden'
     if( fullName.value&&count!==0){
         const data ={
             id:maxId+1,
@@ -242,7 +243,7 @@ const groupRandom = (arr,x)=>{
     if(female<=n){
         let data = [...arr]
         let result=[]
-        totalquanti.innerHTML = Math.ceil(arr.length/input__group.value)
+        totalQuanti.innerHTML = Math.ceil(arr.length/inputGroup.value)
         for(let i=1;i<=n;i++){
             let group=[];
             for(let j=1;j<=x;j++){
@@ -252,33 +253,35 @@ const groupRandom = (arr,x)=>{
                     const isFemale = group.filter(gr=>{
                         return gr?.gender ==='Nữ'
                     })
-                    if(isFemale.length===0){
-                        group.push(data[numberRandom])
-                        data.splice(numberRandom,1)
-                    }
                     if(isFemale.length ===1&&data.length>1){
                         while(data[numberRandom]?.gender!=='Nam'){
                             numberRandom = Math.floor(Math.random() * (data.length));
                         }
-                        group.push(data[numberRandom])
-                        data.splice(numberRandom,1)
                     }
+                    group.push(data[numberRandom])
+                    data.splice(numberRandom,1)
+                }              
                 }
+                const isFemaleGroup = group.filter(gr=>{
+                    return gr?.gender ==='Nữ'
+                })
+                if(isFemaleGroup.length>=2){
+                    
+                    toat({
+                        title: 'Thất bại',
+                        message:'Phân chia không hợp lệ, mời chia lại',
+                        type: 'error',
+                        duration: 500   
+                    })
                 }
             result.push(group)
         }
-        // Delete item undefined
-        // result.forEach((ar,index)=>{
-        //     const notUndefined = ar.filter(value=>{
-        //         return value!==undefined
-        //     })
-        //     result[index] = [...notUndefined]
-        // })
         console.log(result)
         return result
     }
     else{
-        totalquanti.innerHTML = 0
+        totalQuanti.innerHTML = 0
+        containerDivide.innerHTML ='Không thỏa mãn'
         toat({
             title: 'Thất bại',
             message:'Phân chia không hợp lệ, mời chia lại',
@@ -287,22 +290,15 @@ const groupRandom = (arr,x)=>{
         })
     }
 }
-total__quantity.onclick =()=>{
-    // const n = Math.ceil(totalLength/x);
-    // const female = arr.reduce((total,value)=>{
-    //     if(value.gender==="Nữ"){
-    //         total++
-    //     }
-    //     return total
-    // },0)
-    if(!input__group.value&&!Number(input__group.value)){
-        content__group.style.visibility = 'visible'
+totalQuantity.onclick =()=>{
+    if(!inputGroup.value&&!Number(inputGroup.value)){
         toat({
             title: 'Thất bại',
             message:'Mời bạn nhập trường này',
             type: 'error',
             duration: 500   
         })  
+        contentGroup.style.visibility = 'visible'
     }
     else{
         toat({
@@ -311,20 +307,18 @@ total__quantity.onclick =()=>{
             type: 'success',
             duration: 200   
         })
-        content__group.style.visibility = 'hidden'        
+        contentGroup.style.visibility = 'hidden'        
+        const dataGroup = inputGroup.value&&groupRandom(datas,Number(inputGroup.value))
+        inputGroup.value=''
+        containerDivide.innerHTML =dataGroup&&divideGroup(dataGroup)
+        console.log(dataGroup)
     }
-    console.log(datas)
-    const dataGroup = input__group.value&&groupRandom(datas,Number(input__group.value))
-    input__group.value=''
-    containerDivide.innerHTML =dataGroup&&divideGroup(dataGroup)
-    console.log(dataGroup)
 }
-input__group.onblur=(e)=>{
-    content__group.style.visibility = !e.target.value&&!Number(e.target.value) ? 'visible': 'hidden'
+inputGroup.onblur=(e)=>{
+    contentGroup.style.visibility = !e.target.value&&!Number(e.target.value) ? 'visible': 'hidden'
 }
-input__group.oninput=(e)=>{
-    content__group.style.visibility = !e.target.value&&!Number(e.target.value) ? 'visible': 'hidden'
-    
+inputGroup.oninput=(e)=>{
+    contentGroup.style.visibility = !e.target.value&&!Number(e.target.value) ? 'visible': 'hidden'  
 }
 // Group
 // Toat logic xử lý thanh trượt thành công thất bại
