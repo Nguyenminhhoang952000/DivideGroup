@@ -15,7 +15,7 @@ const totalQuantity = $('.total__quantity')
 const contentGroup = $('.content__group')
 const inputGroup = $('.content__fullname-input--group')
 const totalQuanti = $('.totalquanti span')
-const listItems = $$('.content__list-items:last-child')
+const listItems = $$('.content__list-items')
 let datas = result
 totalQuanti.innerHTML = 0
 const renderData = (datas) => {
@@ -265,18 +265,17 @@ const groupRandom = (arr,x)=>{
                 const isFemaleGroup = group.filter(gr=>{
                     return gr?.gender ==='Nữ'
                 })
-                if(isFemaleGroup.length>=2){
-                    
+                if(isFemaleGroup.length>=2){   
                     toat({
                         title: 'Thất bại',
                         message:'Phân chia không hợp lệ, mời chia lại',
                         type: 'error',
-                        duration: 500   
+                        duration: 1500   
                     })
                 }
-            result.push(group)
-        }
-        console.log(result)
+                result.push(group)
+            }
+        // console.log(result)
         return result
     }
     else{
@@ -291,7 +290,17 @@ const groupRandom = (arr,x)=>{
     }
 }
 totalQuantity.onclick =()=>{
-    if(!inputGroup.value&&!Number(inputGroup.value)){
+    totalLength=datas.length
+    const ValueInput = Number(inputGroup.value)
+    const n = Math.ceil(totalLength/ValueInput);
+    const female = datas.reduce((total,value)=>{
+        if(value.gender==="Nữ"){
+            total++
+        }
+        return total
+    },0)
+    if(!inputGroup.value||!Number(inputGroup.value)||female>n){
+        console.log("false")
         toat({
             title: 'Thất bại',
             message:'Mời bạn nhập trường này',
@@ -311,7 +320,8 @@ totalQuantity.onclick =()=>{
         const dataGroup = inputGroup.value&&groupRandom(datas,Number(inputGroup.value))
         inputGroup.value=''
         containerDivide.innerHTML =dataGroup&&divideGroup(dataGroup)
-        console.log(dataGroup)
+        // console.log(dataGroup)
+
     }
 }
 inputGroup.onblur=(e)=>{
