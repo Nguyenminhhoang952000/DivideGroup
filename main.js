@@ -16,6 +16,7 @@ const contentGroup = $('.content__group')
 const inputGroup = $('.content__fullname-input--group')
 const totalQuanti = $('.totalquanti span')
 const listItems = $$('.content__list-items')
+const clearAll = $('.clear__all')
 let datas = result
 totalQuanti.innerHTML = 0
 const renderData = (datas) => {
@@ -126,6 +127,14 @@ addItem.onclick = ()=>{
         })
     } 
 }
+// ClearAll
+clearAll.onclick = ()=>{
+    datas =[]
+    listItem.innerHTML = renderData(datas)
+    total.innerHTML = datas.length;
+}
+
+
 // Action
 editItem.onclick=(e)=>{
     // Click edit
@@ -232,69 +241,49 @@ const divideGroup = (arr)=>{
 // Random chia nhóm
 
 const groupRandom = (arr,x)=>{
-    totalLength=arr.length
     const n = Math.ceil(totalLength/x);
-    const female = arr.reduce((total,value)=>{
-        if(value.gender==="Nữ"){
-            total++
-        }
-        return total
-    },0)
-    if(female<=n){
-        let data = [...arr]
-        let result=[]
-        totalQuanti.innerHTML = Math.ceil(arr.length/inputGroup.value)
-        for(let i=1;i<=n;i++){
-            let group=[];
-            for(let j=1;j<=x;j++){
-                if(data.length>=1){
-                    let numberRandom = Math.floor(Math.random() * (data.length));
-                    // filter female in array
-                    const isFemale = group.filter(gr=>{
-                        return gr?.gender ==='Nữ'
-                    })
-                    if(isFemale.length ===1&&data.length>1){
-                        while(data[numberRandom]?.gender!=='Nam'){
-                            numberRandom = Math.floor(Math.random() * (data.length));
-                        }
-                    }
-                    group.push(data[numberRandom])
-                    data.splice(numberRandom,1)
-                }              
-                }
-                const isFemaleGroup = group.filter(gr=>{
-                    return gr?.gender ==='Nữ'
+    let result=[]
+    let data = [...arr]
+    totalQuanti.innerHTML = Math.ceil(arr.length/inputGroup.value)
+    for(let i=1;i<=n;i++){
+        let group=[];
+        for(let j=1;j<=x;j++){
+            if(data.length>=1){
+                let numberRandom = Math.floor(Math.random() * (data.length));
+                // filter female in array
+                const isFemale = group.filter(gr=>{
+                    return gr?.gender ==='FEMALE'
                 })
-                if(isFemaleGroup.length>=2){   
-                    toat({
-                        title: 'Thất bại',
-                        message:'Phân chia không hợp lệ, mời chia lại',
-                        type: 'error',
-                        duration: 1500   
-                    })
+                if(isFemale.length ===1&&data.length>1){
+                    while(data[numberRandom]?.gender!=='MALE'){
+                        numberRandom = Math.floor(Math.random() * (data.length));
+                    }
                 }
-                result.push(group)
+                group.push(data[numberRandom])
+                data.splice(numberRandom,1)
+            }              
             }
-        // console.log(result)
-        return result
-    }
-    else{
-        totalQuanti.innerHTML = 0
-        containerDivide.innerHTML ='Không thỏa mãn'
-        toat({
-            title: 'Thất bại',
-            message:'Phân chia không hợp lệ, mời chia lại',
-            type: 'error',
-            duration: 500   
-        })
-    }
+            const isFemaleGroup = group.filter(gr=>{
+                return gr?.gender ==='FEMALE'
+            })
+            if(isFemaleGroup.length>=2){   
+                toat({
+                    title: 'Thất bại',
+                    message:'Phân chia không hợp lệ, mời chia lại',
+                    type: 'error',
+                    duration: 1500   
+                })
+            }
+            result.push(group)
+        }
+    return result
 }
 totalQuantity.onclick =()=>{
     totalLength=datas.length
     const ValueInput = Number(inputGroup.value)
     const n = Math.ceil(totalLength/ValueInput);
     const female = datas.reduce((total,value)=>{
-        if(value.gender==="Nữ"){
+        if(value.gender==="FEMALE"){
             total++
         }
         return total
@@ -308,6 +297,7 @@ totalQuantity.onclick =()=>{
             duration: 500   
         })  
         contentGroup.style.visibility = 'visible'
+        containerDivide.innerHTML = "Không có giá trị nào thỏa mãn"
     }
     else{
         toat({
@@ -319,6 +309,7 @@ totalQuantity.onclick =()=>{
         contentGroup.style.visibility = 'hidden'        
         const dataGroup = inputGroup.value&&groupRandom(datas,Number(inputGroup.value))
         inputGroup.value=''
+        console.log(dataGroup)
         containerDivide.innerHTML =dataGroup&&divideGroup(dataGroup)
         // console.log(dataGroup)
 

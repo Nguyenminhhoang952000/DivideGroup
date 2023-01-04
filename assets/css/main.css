@@ -349,6 +349,16 @@
 .total span{
     margin-left: 5px;
 }
+.clear__all{
+    color: #0fa9be;
+    font-weight: 700;
+    font-size: 1.4rem;
+    position: absolute;
+    margin-left: 120px;
+    top:125px;
+    padding: 5px;
+    border: 1px solid #0fa9be;
+}
 
 /* list-item */
 .content__list{
@@ -391,9 +401,10 @@
     align-items: center;
 }
 .content__list-information{
-    margin-left: 10px;
+    margin-left: 6px;
 }
 .content__list--name{
+    padding: 5px 0;
     margin-bottom: 5px;
     width: 150px;
     overflow: hidden;
