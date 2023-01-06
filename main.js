@@ -1,4 +1,6 @@
 import { result } from "./data.js"
+import toat from "./toat.js"
+
 const $ = document.querySelector.bind(document)
 const $$ = document.querySelectorAll.bind(document)
 const fullName = $('.content__fullname-input')
@@ -47,8 +49,8 @@ const renderData = (datas) => {
 }
 
 // Render
-listItem.innerHTML = renderData(datas)
 let totalLength = datas.length
+listItem.innerHTML = renderData(datas)
 total.innerHTML = totalLength
 
 
@@ -105,8 +107,9 @@ addItem.onclick = ()=>{
             gender:valuegender
         }
         datas.push(data)
+        totalLength=datas.length
         listItem.innerHTML = renderData(datas)
-        total.innerHTML = datas.length;
+        total.innerHTML = totalLength;
         fullName.value=''
         Array.from(genders).forEach(gender=>{
             gender.checked = false  
@@ -130,6 +133,7 @@ addItem.onclick = ()=>{
 // ClearAll
 clearAll.onclick = ()=>{
     datas =[]
+    totalLength=datas.length
     listItem.innerHTML = renderData(datas)
     total.innerHTML = datas.length;
 }
@@ -162,7 +166,8 @@ editItem.onclick=(e)=>{
             return data.id!==numberDelete
         })]
         listItem.innerHTML = renderData(datas)
-        total.innerHTML = datas.length;
+        totalLength=datas.length
+        total.innerHTML = totalLength;
         toat({
             title: 'Thành công',
             message:'Xóa thành công',
@@ -192,12 +197,13 @@ saveItem.onclick = ()=>{
     addItem.style.display='block'
     saveItem.style.display='none'
     listItem.innerHTML = renderData(datas)
-    total.innerHTML = datas.length;
+    total.innerHTML = totalLength;
         fullName.value=''
         Array.from(genders).forEach(gender=>{
             gender.checked = false  
         })
 }
+
 
 // Chia nhóm
 
@@ -238,48 +244,81 @@ const divideGroup = (arr)=>{
     })
     return groups.join('')
 }
-// Random chia nhóm
 
-const groupRandom = (arr,x)=>{
-    const n = Math.ceil(totalLength/x);
-    let result=[]
-    let data = [...arr]
-    totalQuanti.innerHTML = Math.ceil(arr.length/inputGroup.value)
+// Random chia nhóm
+// add male or female -> groupHolow
+const addRandomGroup = (arr,arrGroup,indexRandom)=>{
+    const maleRandom = Math.floor(Math.random() * (arr.length));
+    arr.length&&arrGroup[indexRandom].push(arr[maleRandom])
+    arr.splice(maleRandom,1)
+}
+const groupRandom = (arr,n,x)=>{
+    totalQuanti.innerHTML = n
+    let groupHolow = []
     for(let i=1;i<=n;i++){
-        let group=[];
-        for(let j=1;j<=x;j++){
-            if(data.length>=1){
-                let numberRandom = Math.floor(Math.random() * (data.length));
-                // filter female in array
-                const isFemale = group.filter(gr=>{
-                    return gr?.gender ==='FEMALE'
-                })
-                if(isFemale.length ===1&&data.length>1){
-                    while(data[numberRandom]?.gender!=='MALE'){
-                        numberRandom = Math.floor(Math.random() * (data.length));
+        groupHolow.push([])
+    }
+    console.log(groupHolow)
+    let arrayFemale = arr.filter(ar=>ar.gender === "FEMALE")
+    let arrayMale = arr.filter(ar=>ar.gender === "MALE")
+    console.log(totalLength%x===0)
+    if(totalLength%x === 0){
+        [...arrayFemale].forEach(()=>{
+            let arrayRandom = groupHolow.length>=1&&Math.floor(Math.random() * (groupHolow.length));
+            while(groupHolow.length>=1&&groupHolow[arrayRandom].length >= 1){
+                arrayRandom = Math.floor(Math.random() * (groupHolow.length));
+            }
+            if(x>1){
+                for(let j = 1 ; j<x;j++){
+                    const isFemale = groupHolow[arrayRandom].filter(gr=>{
+                        return gr?.gender ==='FEMALE'
+                    })
+                    addRandomGroup(arrayMale,groupHolow,arrayRandom)
+                    if(isFemale.length===0){
+                        addRandomGroup(arrayFemale,groupHolow,arrayRandom)
                     }
                 }
-                group.push(data[numberRandom])
-                data.splice(numberRandom,1)
-            }              
             }
-            const isFemaleGroup = group.filter(gr=>{
-                return gr?.gender ==='FEMALE'
-            })
-            if(isFemaleGroup.length>=2){   
-                toat({
-                    title: 'Thất bại',
-                    message:'Phân chia không hợp lệ, mời chia lại',
-                    type: 'error',
-                    duration: 1500   
+            else{
+                const isFemale = groupHolow[arrayRandom].filter(gr=>{
+                    return gr?.gender ==='FEMALE'
                 })
+                if(isFemale.length===0){
+                    addRandomGroup(arrayFemale,groupHolow,arrayRandom)
+                }
             }
-            result.push(group)
+        })
         }
-    return result
+    else{
+        [...arrayFemale].forEach(()=>{
+            let arrayRandom = groupHolow.length>=1&&Math.floor(Math.random() * (groupHolow.length));
+            while(groupHolow.length>=1&&groupHolow[arrayRandom].length >= 1){
+                arrayRandom = Math.floor(Math.random() * (groupHolow.length));
+            }
+            for(let j = 1 ; j<x;j++){
+                const isFemale = groupHolow[arrayRandom].filter(gr=>{
+                    return gr?.gender ==='FEMALE'
+                })
+                if(arrayRandom!==groupHolow.length-1){
+                    addRandomGroup(arrayMale,groupHolow,arrayRandom)
+                }
+                if(isFemale.length===0){
+                    addRandomGroup(arrayFemale,groupHolow,arrayRandom)
+                }
+            }
+        })
+        }
+        groupHolow.filter((holow,index)=>holow.length===0||(holow.length===1&&index===groupHolow.length-1)).forEach(group=>{
+            for(let j = 1 ; j<=x;j++){
+                const maleRandom = Math.floor(Math.random() * (arrayMale.length));
+                arrayMale.length&&group.push(arrayMale[maleRandom])
+                arrayMale.splice(maleRandom,1)
+            }
+        })
+    console.log(groupHolow)
+    return groupHolow
 }
 totalQuantity.onclick =()=>{
-    totalLength=datas.length
     const ValueInput = Number(inputGroup.value)
     const n = Math.ceil(totalLength/ValueInput);
     const female = datas.reduce((total,value)=>{
@@ -288,7 +327,7 @@ totalQuantity.onclick =()=>{
         }
         return total
     },0)
-    if(!inputGroup.value||!Number(inputGroup.value)||female>n){
+    if(!inputGroup.value||!Number(inputGroup.value)||female>n||datas.length<1){
         console.log("false")
         toat({
             title: 'Thất bại',
@@ -306,12 +345,12 @@ totalQuantity.onclick =()=>{
             type: 'success',
             duration: 200   
         })
+        console.log(totalLength)
         contentGroup.style.visibility = 'hidden'        
-        const dataGroup = inputGroup.value&&groupRandom(datas,Number(inputGroup.value))
+        const dataGroup = inputGroup.value&&groupRandom(datas,n,Number(inputGroup.value))
         inputGroup.value=''
         console.log(dataGroup)
         containerDivide.innerHTML =dataGroup&&divideGroup(dataGroup)
-        // console.log(dataGroup)
 
     }
 }
@@ -321,44 +360,4 @@ inputGroup.onblur=(e)=>{
 inputGroup.oninput=(e)=>{
     contentGroup.style.visibility = !e.target.value&&!Number(e.target.value) ? 'visible': 'hidden'  
 }
-// Group
-// Toat logic xử lý thanh trượt thành công thất bại
-function toat(option){
-    const EToast= document.querySelector('#toast')
-    if(EToast){
-            let CreatDiv = document.createElement('div')
-            CreatDiv.classList.add('toast',`toast--${option.type}`)
-            const icons={
-                    success: "fas fa-check-circle",
-                    info: "fas fa-info-circle",
-                    warning: "fas fa-exclamation-circle",
-                    error: "fas fa-exclamation-circle"
-            } 
-            CreatDiv.style.animation='slideInLeft linear 0.4s'
-            let check = icons[option.type]
-            let ListToast = `<div class="toast__icon">
-                                    <i class="${check}"></i>
-                            </div>
-                            <div class="toast__body">
-                                    <h3 class="toast__title">${option.title}</h3>
-                                    <p class="toast__msg">${option.message}</p>
-                            </div>
-                            <div class="toast__close">
-                                    <i class="fas fa-times"></i>
-                            </div>`
-            CreatDiv.innerHTML = ListToast
-            EToast.appendChild(CreatDiv)
-            const call=setTimeout(() => {
-                    EToast.removeChild(CreatDiv);
-                    }, option.duration+1000);
-            CreatDiv.onclick = function(clickToast){
-                    if(clickToast.target.closest('.toast__close')){
-                            setTimeout(function(){
-                                    EToast.removeChild(CreatDiv)
-                                    clearTimeout(call)
-                            }, option.duration);
 
-                    }
-            }
-    }
-}
